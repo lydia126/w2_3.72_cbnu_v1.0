@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VisualStudioProject ProjectCreator="Intel Fortran" Keyword="Win32 Application" Version="11.0" ProjectIdGuid="{E382057C-86F0-4169-B789-6D178139AEA6}">
+	<Platforms>
+		<Platform Name="Win32"/></Platforms>
+	<Configurations>
+		<Configuration Name="Debug|Win32">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" WarnInterfaces="true" Traceback="true" BoundsCheck="true" RuntimeLibrary="rtMultiThreadedDebug" UseWindowsLibs="true" Interfaces="true"/>
+				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" GenerateDebugInformation="true" SubSystem="subSystemWindows"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true" HeaderFileName="$(InputName).h"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/>
+				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
+		<Configuration Name="Release|Win32">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" RealKIND="realKIND8" UseWindowsLibs="true"/>
+				<Tool Name="VFLinkerTool" SuppressStartupBanner="true" SubSystem="subSystemWindows"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true" HeaderFileName="$(InputName).h"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/>
+				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration></Configurations>
+	<Files>
+		<Filter Name="Header Files" Filter="fi;fd">
+		<File RelativePath="..\..\Resource.h"/></Filter>
+		<Filter Name="Resource Files" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+		<File RelativePath="..\..\Resource.fd"/>
+		<File RelativePath="..\..\w2.rc"/>
+		<File RelativePath="..\..\w2_2.ico"/>
+		<File RelativePath="..\..\w2_big.ico"/>
+		<File RelativePath="..\..\w2_new.ico"/></Filter>
+		<Filter Name="Source Files" Filter="f90;for;f;fpp;ftn;def;odl;idl">
+		<File RelativePath="..\..\aerate.f90"/>
+		<File RelativePath="..\..\az.f90"/>
+		<File RelativePath="..\..\balances.F90"/>
+		<File RelativePath="..\..\date.f90"/>
+		<File RelativePath="..\..\density.f90"/>
+		<File RelativePath="..\..\endsimulation.F90"/>
+		<File RelativePath="..\..\envir_perf.f90"/>
+		<File RelativePath="..\..\fishhabitat.f90"/>
+		<File RelativePath="..\..\gas-transfer.f90"/>
+		<File RelativePath="..\..\gate-spill-pipe.f90"/>
+		<File RelativePath="..\..\heat-exchange.f90"/>
+		<File RelativePath="..\..\hydroinout.F90"/>
+		<File RelativePath="..\..\init-cond.F90"/>
+		<File RelativePath="..\..\init-geom.F90"/>
+		<File RelativePath="..\..\init-u-elws.f90"/>
+		<File RelativePath="..\..\init.F90"/>
+		<File RelativePath="..\..\input.F90"/>
+		<File RelativePath="..\..\layeraddsub.F90"/>
+		<File RelativePath="..\..\macrophyte-aux.f90"/>
+		<File RelativePath="..\..\output.f90"/>
+		<File RelativePath="..\..\outputa2w2tools.F90"/>
+		<File RelativePath="..\..\outputinitw2tools.F90"/>
+		<File RelativePath="..\..\preprocessor_definitions.fpp"/>
+		<File RelativePath="..\..\restart.f90"/>
+		<File RelativePath="..\..\screen_output_intel.f90"/>
+		<File RelativePath="..\..\shading.f90"/>
+		<File RelativePath="..\..\tdg.f90"/>
+		<File RelativePath="..\..\temperature.F90"/>
+		<File RelativePath="..\..\time-varying-data.f90"/>
+		<File RelativePath="..\..\transport.f90"/>
+		<File RelativePath="..\..\update.F90"/>
+		<File RelativePath="..\..\w2_37_win.f90"/>
+		<File RelativePath="..\..\w2modules.F90"/>
+		<File RelativePath="..\..\water-quality.f90"/>
+		<File RelativePath="..\..\waterbody.f90"/>
+		<File RelativePath="..\..\withdrawal.f90"/>
+		<File RelativePath="..\..\wqconstituents.F90"/></Filter></Files>
+	<Globals/></VisualStudioProject>
