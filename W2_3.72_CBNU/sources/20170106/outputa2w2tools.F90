@@ -117,7 +117,7 @@ SUBROUTINE OUTPUTA
       ! write out water level File 9526  
       write(9526,'(f10.3,",",1000(f8.3,","))')jday,(elws(i),i=2,imx-1)
       ! write out check para  
-!      WRITE(CHECK, '(7F12.4)') JDAY, SJDAY(4,31), EJDAY(4,31), DLIGHT(4,31), PARZ(4,31)*0.235, SPARZ(4,31)*0.235, PARA(4,31)  ! CSW 07/30/15  CHECK
+      WRITE(CHECK, '(6F12.4)') JDAY, PARA, DLT, TSRDP, NXTMTS, PARZ(2,138)*0.235            ! CSW 07/30/15  CHECK
       DO J=1,NIKTSR  
         I = ITSR(J)  
         DO JW=1,NWB  
@@ -157,24 +157,24 @@ SUBROUTINE OUTPUTA
 !++CSW 1/5/17;  DEPTH => ARHOZ(K,I) (CYANO DENSITY),  WIDTH=>ASCYA(K,I) (CYANO SETTLING VELOCITY), SHADE=>PARZ, Q(I)=>DEPTHM(K,I)        
         IF (ICE_COMPUTATION) THEN  
           IF(SEDIMENT_CALC(JW))THEN  
-            WRITE (TSR(J),'(f10.3,17F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),PARA(K,I),SRON(JW)*1.06,GAMMA(K,I), ARHOZ(K,I),    &          ! SW 8/13/06  
+            WRITE (TSR(J),'(f10.3,17F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),DEPTHM(K,I),SRON(JW)*1.06,GAMMA(K,I), ARHOZ(K,I),    &          ! SW 8/13/06  
             ASCYA(K,I)*86400,PARZ(K,I)*0.235,ICETH(I),rn(i),rs(i),ranlw(jw),rb(i),re(i),rc(i),(ADJUSTR(C2CH(JAC)),JAC=1,NAC),                      &  ! CB 7/26/07
             (ADJUSTR(EPCH(JE)),JE=1,NEP),(ADJUSTR(MACCH(JM)),JM=1,NMC),SEDCH,SEDPCH,SEDNCH,SEDCCH, &  
             (ADJUSTR(CDCH(JAD)),JAD=1,NACD(JW)),(ADJUSTR(KFCH(JF)),JF=1,NAF(JW)) 
           ELSE  
-            WRITE (TSR(J),'(f10.3,17F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),PARA(K,I),SRON(JW)*1.06,GAMMA(K,I),ARHOZ(K,I),      &     ! SW 8/13/06  
+            WRITE (TSR(J),'(f10.3,17F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),DEPTHM(K,I),SRON(JW)*1.06,GAMMA(K,I),ARHOZ(K,I),      &     ! SW 8/13/06  
             ASCYA(K,I)*86400,PARZ(K,I)*0.235,ICETH(I),rn(i),rs(i),ranlw(jw),rb(i),re(i),rc(i),(ADJUSTR(C2CH(JAC)),JAC=1,NAC),                      &  ! CB 7/26/07
             (ADJUSTR(EPCH(JE)),JE=1,NEP),(ADJUSTR(MACCH(JM)),JM=1,NMC),                            &  
             (ADJUSTR(CDCH(JAD)),JAD=1,NACD(JW)),(ADJUSTR(KFCH(JF)),JF=1,NAF(JW))  
           END IF  
         ELSE  
           IF(SEDIMENT_CALC(JW))THEN  
-            WRITE (TSR(J),'(f10.3,16F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),PARA(K,I),SRON(JW)*1.06,GAMMA(K,I),ARHOZ(K,I),    &     ! SW 8/13/06  
+            WRITE (TSR(J),'(f10.3,16F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),DEPTHM(K,I),SRON(JW)*1.06,GAMMA(K,I),ARHOZ(K,I),    &     ! SW 8/13/06  
             ASCYA(K,I)*86400,PARZ(K,I)*0.235,rn(i),rs(i),ranlw(jw),rb(i),re(i),rc(i),(ADJUSTR(C2CH(JAC)),JAC=1,NAC),(ADJUSTR(EPCH(JE)),            &  ! CB 7/26/07
             JE=1,NEP),(ADJUSTR(MACCH(JM)),JM=1,NMC),SEDCH,SEDPCH,SEDNCH,SEDCCH,                   &  
             (ADJUSTR(CDCH(JAD)),JAD=1,NACD(JW)),(ADJUSTR(KFCH(JF)),JF=1,NAF(JW))
           ELSE  
-            WRITE (TSR(J),'(f10.3,16F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),PARA(K,I),SRON(JW)*1.06,GAMMA(K,I),ARHOZ(K,I),      &      ! SW 8/13/06  
+            WRITE (TSR(J),'(f10.3,16F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),DEPTHM(K,I),SRON(JW)*1.06,GAMMA(K,I),ARHOZ(K,I),      &      ! SW 8/13/06  
             ASCYA(K,I)*86400,PARZ(K,I)*0.235,rn(i),rs(i),ranlw(jw),rb(i),re(i),rc(i),(ADJUSTR(C2CH(JAC)),JAC=1,NAC),(ADJUSTR(EPCH(JE)),            &  ! CB 7/26/07
             JE=1,NEP),(ADJUSTR(MACCH(JM)),JM=1,NMC),(ADJUSTR(CDCH(JAD)),JAD=1,NACD(JW)),    &  
             (ADJUSTR(KFCH(JF)),JF=1,NAF(JW))

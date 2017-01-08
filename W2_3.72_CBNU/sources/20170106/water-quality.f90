@@ -23,12 +23,12 @@ SUBROUTINE KINETICS
   REAL                                :: ALGP,ALGN,ZOOP,ZOON,TPSS,XX   ! SW 4/5/09
   REAL, ALLOCATABLE, DIMENSION(:,:)   :: OMTRM,  SODTRM, NH4TRM, NO3TRM, BIBH2
   REAL, ALLOCATABLE, DIMENSION(:,:)   :: DOM,    POM,    PO4BOD, NH4BOD, TICBOD
-  REAL, ALLOCATABLE, DIMENSION(:,:)   :: LAM2M
+  REAL, ALLOCATABLE, DIMENSION(:,:)   :: LAM2M  
   REAL, ALLOCATABLE, DIMENSION(:,:,:) :: ATRM,   ATRMR,  ATRMF
   REAL, ALLOCATABLE, DIMENSION(:,:,:) :: ETRM,   ETRMR,  ETRMF
   INTEGER                             :: K, JA, JE, M, JS, JT, JJ, JJZ, JG, JCB, JBOD, LLM,J,JD
   INTEGER                             :: MI,JAF,N,ITER,IBOD
-  INTEGER                             :: ISCYANO, ASTYPE   ! CSW 1/4/16 CYANO BUYANCY PARAMETER 
+  INTEGER                             :: ASTYPE   ! CSW 1/4/16 CYANO BUYANCY PARAMETER 
   SAVE
 
 ! Allocation declarations
@@ -41,11 +41,11 @@ SUBROUTINE KINETICS
 
 ! CSW++  OPEN AND READ w2_cyano.npt FILE
     OPEN(9550,FILE='W2_CYANO.NPT',STATUS='OLD')
-    READ(9550,'(//2I8,6F8.0)')ISCYANO, ASTYPE, ARHOI, ARHOL, ARHOU, ARAD, RCOL, AFORM
+    READ(9550,'(//I8,6F8.0)')ASTYPE, ARHOI, ARHOL, ARHOU, ARAD, RCOL, AFORM
     ARAD = ARAD/1000000
 !    ARHOZ = ARHOI
     READ(9550,'(/)')
-    READ(9550,'(5F8.0)')AC1,AC2,AC3,AKH
+    READ(9550,'(5F8.0)')AC1,AC2,AC3,AKH, PARA
     CLOSE(9550)
 ! CSW-- 1/4/17                      
 RETURN
@@ -371,33 +371,21 @@ ENTRY KINETIC_RATES
         ! 7)   ARHOZ(K,I)=ARHOZ(K,I)+DEL*(AC2*PARA-AC3)
         ! 8) ENDIF
         ! 9) ASCYA(K,I) = 2*9.8*ARAD*ARAD*RCOL*(AROHZ(K,I)-RHO(K,I))/(9*AFORM*VISCOS(K,I))
-       IF((JA .EQ. ISCYANO) .AND. (ASTYPE .EQ. 1)) THEN         
+       IF((JA .EQ. 2) .AND. (ASTYPE .EQ. 1)) THEN         
           RHO(K,I) = DENSITY(T1(K,I),MAX(TDS(K,I),0.0),MAX(TISS(K,I),0.0))  ! CSW 07/30/15
           VISCOS(K,I)  = (10*EXP(-1.65+(262/(T1(K,I)+139))))/1000
           PARZ(K, I)=((1.0-BETA(JW))*SRON(JW)*SHADE(I)*EXP(-GAMMA(K,I)*DEPTHM(K,I)))/0.235   ! W/M2/S ->uE/M2/S
            IF(PARZ(K,I) > 0)THEN 
-              IF (ISFIRST(K,I) .EQ. 0) THEN
-               SJDAY(K,I) = JDAY
-               SPARZ(K,I) = 0.0
-              END IF
-              ISFIRST(K,I) = 1
-              SPARZ(K,I) = SPARZ(K,I) + PARZ(K,I)*DLT
 !             ARHOZ(K,I)=ARHOZ(K,I)+DLT*(AC1*(1-EXP(-PARZ(K,I)/AKH)-AC3))/60             ! CAEDYM equation
               ARHOZ(K,I)=ARHOZ(K,I)+DLT*(AC1*(PARZ(K,I)/(PARZ(K,I)+AKH)-AC3))/60          ! Kromkamp and Walsby, 1990  
               ARHOZ(K,I)=MIN(ARHOU, ARHOZ(K,I))
            ELSE
-              IF (ISFIRST(K,I) .EQ. 1) THEN
-               EJDAY(K,I) = JDAY 
-               DLIGHT(K,I) = MAX((EJDAY(K,I)-SJDAY(K,I))*86400.0, 28800.0)
-               PARA(K,I) = SPARZ(K,I)/DLIGHT(K,I)
-              END IF
-              ISFIRST(K,I) = 0
-              ARHOZ(K,I)=ARHOZ(K,I)+DLT*(-AC2*PARA(K,I)-AC3)/60
+              ARHOZ(K,I)=ARHOZ(K,I)+DLT*(-AC2*PARA-AC3)/60
               ARHOZ(K,I)=MAX(ARHOL, ARHOZ(K,I))
            ENDIF
            ASCYA(K,I) = 2*9.8*ARAD*ARAD*RCOL*(ARHOZ(K,I)-RHO(K,I))/(9*AFORM*VISCOS(K,I))     ! CSW 1/4/17
            IF (ASCYA(K,I) >= 0.0) THEN
-!              ASCYA(K,I) = MIN(AS(JA), ASCYA(K,I))    ! CSW 1/6/17  Maximum settling velocity as AS in w2_con.npt            
+              ASCYA(K,I) = MIN(AS(JA), ASCYA(K,I))    ! CSW 1/6/17  Maximum settling velocity as AS in w2_con.npt            
               IF(K == KT)THEN
                  ASR(K,I,JA) =  ASCYA(K,I)*(-ALG(K,I,JA))*BI(K,I)/BH2(K,I)
               ELSE
@@ -434,9 +422,7 @@ ENTRY KINETIC_RATES
     end do
     ENDIF
    END DO    ! ALGAE LOOP
-      
-   WRITE(CHECK, '(7F12.4)') JDAY, SJDAY(5,30), EJDAY(5,30), DLIGHT(5,30), PARZ(5,31)*0.235, SPARZ(5,30)*0.235, PARA(5,30)  ! CSW 07/30/15  CHECK
-      
+
 ! Macrophyte Light/Nutrient Limitation and kinetic rates
   do m=1,nmc
   if(macrophyte_calc(jw,m))then
@@ -1947,5 +1933,6 @@ ENTRY DERIVED_CONSTITUENTS
 RETURN
 ENTRY DEALLOCATE_KINETICS
   DEALLOCATE (OMTRM,  SODTRM, NH4TRM, NO3TRM, DOM, POM, PO4BOD, NH4BOD, TICBOD, ATRM,   ATRMR,  ATRMF, ETRM,   ETRMR,  ETRMF, BIBH2)
+  DEALLOCATE (LAM2M)
 RETURN
 END SUBROUTINE KINETICS

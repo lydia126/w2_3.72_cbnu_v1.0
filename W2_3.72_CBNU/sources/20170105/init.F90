@@ -40,9 +40,8 @@ USE GLOBAL;     USE NAMESC; USE GEOMC;  USE LOGICC; USE PREC;  USE SURFHE;  USE 
     TSSEV  = 0.0; TSSPR  = 0.0; TSSTR  = 0.0; TSSDT  = 0.0; TSSWD  = 0.0; TSSUH  = 0.0; TSSDH  = 0.0; TSSIN  = 0.0; CSSK   = 0.0
     TSSOUT = 0.0; TSSICE = 0.0; TSSUH1 = 0.0; TSSUH2 = 0.0; CSSUH1 = 0.0; CSSUH2 = 0.0; TSSDH1 = 0.0; TSSDH2 = 0.0
     CSSDH1 = 0.0; CSSDH2 = 0.0; QIND   = 0.0; TIND   = 0.0; CIND   = 0.0; SAVH2  = 0.0; SAVHR  = 0.0; VOLUH2 = 0.0
-    AVH1   = 0.0; AVH2   = 0.0; VOLDH2 = 0.0; Z      = 0.0D0; QUH1 = 0.0D0; SED  = 0.0; SEDC   = 0.0; SEDN   = 0.0
-    VS     = 0.0; YS     = 0.0; YST    = 0.0; VST    = 0.0;   DTP  = 0.0; QOLD   = 0.0
-    VISCOS = 0.0;   PARZ = 0.0;  ARHOZ = 0.0;  ASCYA = 0.0;   SPARZ= 0.0;   PARA = 0.0; ISFIRST = 0   !CSW 1/4/17
+    AVH1   = 0.0; AVH2   = 0.0; VOLDH2 = 0.0; Z      = 0.0D0; QUH1   = 0.0D0; SED    = 0.0; SEDC   = 0.0; SEDN   = 0.0; VISCOS = 0.0   !CSW 1/4/17
+    VS     = 0.0; YS     = 0.0; YST    = 0.0; VST    = 0.0; DTP    = 0.0; QOLD   = 0.0; PARZ = 0.0;  ARHOZ = 0.0;  ASCYA = 0.0   !CSW 1/4/17
     SEDP   = 0.0; ICETH=0.0                                     ! SW 4/19/10
     ZMIN   = -1000.0
     TKE=0.0                                                     ! SG 10/4/07

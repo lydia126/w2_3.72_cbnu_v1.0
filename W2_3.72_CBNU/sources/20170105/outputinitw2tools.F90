@@ -12,7 +12,7 @@ SUBROUTINE OUTPUTINIT
   INTEGER*4,ALLOCATABLE,DIMENSION(:,:) :: ICOMP  
     
   INTEGER JN,IW, JO  
-  INTEGER*4 IFLAG 
+  INTEGER*4 IFLAG  
   CHARACTER(60) :: TITLEWITH2  
   CHARACTER(100) :: TITLEWITH  
     
@@ -770,8 +770,6 @@ SUBROUTINE OUTPUTINIT
       
     ! ***  
     IF (TIME_SERIES) THEN  
-        OPEN (CHECK,FILE='check.opt',STATUS='UNKNOWN') ! CSW 07/30/15
-        WRITE (CHECK,'(7(2X,A10))') '  JDAY','   SJDAY','  EJDAY', 'DLIGHT', '  PARZ', '  SPARZ', '   PARA'    ! CSW 07/30/15              
       L1 = SCAN(TSRFN,'.',BACK=.TRUE.)    ! SW 8/22/14
       DO J=1,NIKTSR  
         WRITE (SEGNUM,'(I0)') ITSR(J)  
@@ -786,32 +784,31 @@ SUBROUTINE OUTPUTINIT
         I = ITSR(J)  ! SR 5/10/05
         DO JW=1,NWB  
           IF (I >= US(BS(JW)) .AND. I <= DS(BE(JW))) EXIT  
-        END DO
+        END DO  
 
 !++CSW 1/5/17;  DEPTH => ARHOZ(K,I) (CYANO DENSITY),  WIDTH=>ASCYA(K,I) (CYANO SETTLING VELOCITY), SHADE=>PARZ
-
         IF (ICE_COMPUTATION) THEN  
           IF(SEDIMENT_CALC(JW))THEN  
-            WRITE (TSR(J),'(1000(2X,A))') '    JDAY','     DLT','    ELWS','      T2','       U','  PARA','    SRON','     EXT',   &  
+            WRITE (TSR(J),'(1000(2X,A))') '    JDAY','     DLT','    ELWS','      T2','       U','  DEPTHM','    SRON','     EXT',   &  
             '   ARHOZ','   ASCYA','    PARZ','   ICETH',                         &
             '  NetRad',' SWSolar','   LWRad',' BackRad','   EvapF',' ConducF',   &
             (CNAME2(CN(JC)),JC=1,NAC),                                           &  
             ('     EPI',JE=1,NEP),('     MAC',JM=1,NMC),'     SED','    SEDP','    SEDN','    SEDC',   &  
             (CDNAME2(CDN(JD,JW)),JD=1,NACD(JW)),(KFNAME2(KFCN(JF,JW)),JF=1,NAF(JW))  
           ELSE  
-            WRITE (TSR(J),'(1000(2X,A))') '    JDAY','     DLT','    ELWS','      T2','       U','  PARA','    SRON','     EXT', &  
+            WRITE (TSR(J),'(1000(2X,A))') '    JDAY','     DLT','    ELWS','      T2','       U','  DEPTHM','    SRON','     EXT', &  
             '   ARHOZ','   ASCYA','    PARZ','   ICETH', '  NetRad',' SWSolar','   LWRad',' BackRad','   EvapF',' ConducF',  (CNAME2(CN(JC)),JC=1,NAC),                     &  
             ('     EPI',JE=1,NEP),('     MAC',JM=1,NMC),(CDNAME2(CDN(JD,JW)),JD=1,NACD(JW)),(KFNAME2(KFCN(JF,JW)),JF=1,NAF(JW))  
           END IF  
         ELSE  
           IF(SEDIMENT_CALC(JW))THEN  !mlm 7/25/06
-            WRITE (TSR(J),'(1000(2X,A))') '    JDAY','     DLT','    ELWS','      T2','       U','  PARA','    SRON','     EXT',   &  
+            WRITE (TSR(J),'(1000(2X,A))') '    JDAY','     DLT','    ELWS','      T2','       U','  DEPTHM','    SRON','     EXT',   &  
             '   ARHOZ','   ASCYA','    PARZ', '  NetRad',' SWSolar','   LWRad',' BackRad','   EvapF',' ConducF',   &
             (CNAME2(CN(JC)),JC=1,NAC),                     &  
             ('     EPI',JE=1,NEP),('     MAC',JM=1,NMC),'     SED','    SEDP','    SEDN','    SEDC',   &  
-            (CDNAME2(CDN(JD,JW)),JD=1,NACD(JW)),(KFNAME2(KFCN(JF,JW)),JF=1,NAF(JW))
+            (CDNAME2(CDN(JD,JW)),JD=1,NACD(JW)),(KFNAME2(KFCN(JF,JW)),JF=1,NAF(JW))  
           ELSE  
-            WRITE (TSR(J),'(1000(2X,A))') '    JDAY','     DLT','    ELWS','      T2','       U','  PARA','    SRON','     EXT', &  
+            WRITE (TSR(J),'(1000(2X,A))') '    JDAY','     DLT','    ELWS','      T2','       U','  DEPTHM','    SRON','     EXT', &  
             '   ARHOZ','   ASCYA','    PARZ', '  NetRad',' SWSolar','   LWRad',' BackRad','   EvapF',' ConducF',   &
             (CNAME2(CN(JC)),JC=1,NAC),                     &  
             ('     EPI',JE=1,NEP),('     MAC',JM=1,NMC),(CDNAME2(CDN(JD,JW)),JD=1,NACD(JW)),(KFNAME2(KFCN(JF,JW)),JF=1,NAF(JW))  

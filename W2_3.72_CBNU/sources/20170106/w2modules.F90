@@ -211,7 +211,7 @@ MODULE KINETIC
   INTEGER                                            :: CHECK=25         ! CSW 07/30/15  
   REAL                                               :: KDO  
   REAL                                               :: ARHOI, ARHOL, ARHOU, ARAD, RCOL, AFORM   ! CSW 1/4/16 CYANO BUYANCY PARAMETER
-  REAL                                               :: AC1,AC2,AC3,AKH  ! CSW 1/4/16 CYANO LIGHT PARAMETER
+  REAL                                               :: AC1,AC2,AC3,AKH, PARA  ! CSW 1/4/16 CYANO LIGHT PARAMETER
   REAL(R8),    POINTER,           DIMENSION(:,:)     :: TDS,    COL,    NH4,    NO3,    PO4,    FE,     DSI,    PSI,    LDOM
   REAL(R8),    POINTER,           DIMENSION(:,:)     :: RDOM,   LPOM,   RPOM,   O2,     TIC,    ALK
   REAL(R8),    POINTER,           DIMENSION(:,:)     :: COLSS,  NH4SS,  NO3SS,  PO4SS,  FESS,   DSISS,  PSISS,  LDOMSS
@@ -256,7 +256,7 @@ MODULE KINETIC
   REAL(R8),POINTER,               DIMENSION(:,:,:)   :: CBODPSS,    CBODNSS       ! CB 6/6/10
   REAL,    POINTER,               DIMENSION(:,:)     :: CBODNSP,  CBODNSN          ! cb 6/6/10
   REAL,              ALLOCATABLE, DIMENSION(:,:,:)   :: EPM,    EPD,    EPC
-  REAL,              ALLOCATABLE, DIMENSION(:,:)     :: VISCOS, PARZ, ARHOZ, ASCYA, PARA, SPARZ, SJDAY, EJDAY, DLIGHT, ISFIRST   ! CSW 1/4/17      
+  REAL,              ALLOCATABLE, DIMENSION(:,:)     :: VISCOS, PARZ, ARHOZ, ASCYA   ! CSW 1/4/17      
   REAL,              ALLOCATABLE, DIMENSION(:)       :: CGQ10,  CG0DK,  CG1DK,  CGS
   REAL,              ALLOCATABLE, DIMENSION(:)       :: SOD,    SDK,    LPOMDK, RPOMDK, LDOMDK, RDOMDK, LRDDK,  LRPDK
   REAL,              ALLOCATABLE, DIMENSION(:)       :: SSS,    TAUCR,  POMS,   FES, seds, sedb !, SSFLOC  !cb 11/27/06 !SR 04/21/13
