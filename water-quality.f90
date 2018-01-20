@@ -360,17 +360,6 @@ ENTRY KINETIC_RATES
         AMR(K,I,JA) = (ATRMR(K,I,JA)+1.0-ATRMF(K,I,JA))*AM(JA)
         AER(K,I,JA) =  MIN((1.0-ALLIM(K,I,JA))*AE(JA)*ATRM(K,I,JA),AGR(K,I,JA))
 !***** CSW ++ Cyano buoyancy control
-        ! 1) Open and Read w2_cyano.npt
-        ! 2) IF (ASTYPE .EQ. 1) THEN
-        !    RHO(K,I) = DENSITY(T1(K,I),MAX(TDS(K,I),0.0),MAX(TISS(K,I),0.0))  ! CSW 07/30/15
-        !    VISCOS(K,I)  = (10*EXP(-1.65+(262/(T1(K,I)+139))))/1000
-        ! 3) PARZ(K, I)=(1.0-BETA(JW))*SRON(JW)*SHADE(I)*EXP(-GAMMA(K,I)*H2(K,I))
-        ! 4) IF (PARZ(K,I) > 0) THEN  
-        ! 5)   ARHOZ(K,I)=ARHOZ(K,I)+DEL*(AC1*(1-EXP(PARZ(K,I)/AKH)-AC3)
-        ! 6) ELSE
-        ! 7)   ARHOZ(K,I)=ARHOZ(K,I)+DEL*(AC2*PARA-AC3)
-        ! 8) ENDIF
-        ! 9) ASCYA(K,I) = 2*9.8*ARAD*ARAD*RCOL*(AROHZ(K,I)-RHO(K,I))/(9*AFORM*VISCOS(K,I))
        IF((JA .EQ. ISCYANO) .AND. (ASTYPE .EQ. 1)) THEN         
           RHO(K,I) = DENSITY(T1(K,I),MAX(TDS(K,I),0.0),MAX(TISS(K,I),0.0))  ! CSW 07/30/15
           VISCOS(K,I)  = (10*EXP(-1.65+(262/(T1(K,I)+139))))/1000
@@ -384,7 +373,8 @@ ENTRY KINETIC_RATES
               SPARZ(K,I) = SPARZ(K,I) + PARZ(K,I)*DLT
 !             ARHOZ(K,I)=ARHOZ(K,I)+DLT*(AC1*(1-EXP(-PARZ(K,I)/AKH)-AC3))/60             ! CAEDYM equation
               ARHOZ(K,I)=ARHOZ(K,I)+DLT*(AC1*(PARZ(K,I)/(PARZ(K,I)+AKH)-AC3))/60          ! Kromkamp and Walsby, 1990  
-              ARHOZ(K,I)=MIN(ARHOU, ARHOZ(K,I))
+              ARHOZ(K,I)=MIN(ARHOU, ARHOZ(K,I))                                           ! CSW 09/16/17
+              ARHOZ(K,I)=MAX(ARHOL, ARHOZ(K,I))                                           ! CSW 09/16/17
            ELSE
               IF (ISFIRST(K,I) .EQ. 1) THEN
                EJDAY(K,I) = JDAY 
@@ -393,11 +383,12 @@ ENTRY KINETIC_RATES
               END IF
               ISFIRST(K,I) = 0
               ARHOZ(K,I)=ARHOZ(K,I)+DLT*(-AC2*PARA(K,I)-AC3)/60
-              ARHOZ(K,I)=MAX(ARHOL, ARHOZ(K,I))
+              ARHOZ(K,I)=MAX(ARHOL, ARHOZ(K,I))                                         ! CSW 09/16/17
+              ARHOZ(K,I)=MIN(ARHOU, ARHOZ(K,I))                                         ! CSW 09/16/17
            ENDIF
            ASCYA(K,I) = 2*9.8*ARAD*ARAD*RCOL*(ARHOZ(K,I)-RHO(K,I))/(9*AFORM*VISCOS(K,I))     ! CSW 1/4/17
+!++ CSW 1/17/17
            IF (ASCYA(K,I) >= 0.0) THEN
-!              ASCYA(K,I) = MIN(AS(JA), ASCYA(K,I))    ! CSW 1/6/17  Maximum settling velocity as AS in w2_con.npt            
               IF(K == KT)THEN
                  ASR(K,I,JA) =  ASCYA(K,I)*(-ALG(K,I,JA))*BI(K,I)/BH2(K,I)
               ELSE
@@ -405,13 +396,43 @@ ENTRY KINETIC_RATES
               ENDIF
            ELSE
               IF(K == KB(I))THEN
-                 ASR(K,I,JA) = -ASCYA(K,I)*(-ALG(K,I,JA)  *BI(K,I)/BH2(K,I))                                           !SW 11/8/07
+                 ASR(K,I,JA) = -ASCYA(K,I)*(-ALG(K,I,JA)  *BI(K,I)/BH2(K,I))                                           !CSW -- 1/4/17
               ELSEIF(K == KT)THEN
-                 ASR(K,I,JA) = -ASCYA(K,I)* ALG(K+1,I,JA)*BI(K+1,I)*DLX(I)/VOL(K,I)                                   !SW 11/8/07
+                 ASR(K,I,JA) = -ASCYA(K,I)* ALG(K+1,I,JA)*BI(K+1,I)*DLX(I)/VOL(K,I)                                   !CSW -- 1/4/17
               ELSE
-                 ASR(K,I,JA) = -ASCYA(K,I)*(ALG(K+1,I,JA)*BI(K+1,I)/BH2(K,I)-ALG(K,I,JA)*BI(K,I)/BH2(K,I))             !SP 8/27/07
+                 ASR(K,I,JA) = -ASCYA(K,I)*(ALG(K+1,I,JA)*BI(K+1,I)/BH2(K,I)-ALG(K,I,JA)*BI(K,I)/BH2(K,I))             !CSW -- 1/4/17
               END IF
            END IF
+!-- CSW 1/17/17
+!!++ CSW test 1/17/17
+!            IF(K==KT)THEN
+!                IF(ASCYA(K,I) >=0.0)THEN
+!                   ASR(K,I,JA)=ASCYA(K,I)*(-ALG(K,I,JA)*BI(K,I)/BH2(K,I))
+!                ELSE
+!                   ASR(K,I,JA)=0.0 
+!                ENDIF
+!                IF(ASCYA(K+1,I) <= 0.0)THEN
+!                   ASR(K,I,JA)=ASR(K,I,JA)+ASCYA(K+1,I)*(-ALG(K+1,I,JA)*BI(K+1,I)/BH2(K+1,I))
+!                ENDIF
+!            ELSEIF(K==KB(I))THEN
+!               IF(ASCYA(K,I) <= 0.0)THEN
+!                   ASR(K,I,JA)=-ASCYA(K,I)*(-ALG(K,I,JA)*BI(K,I)/BH2(K,I))
+!                ELSE
+!                   ASR(K,I,JA)=0.0 
+!               ENDIF
+!               IF(ASCYA(K-1,I) >= 0.0)THEN
+!                   ASR(K,I,JA)=ASR(K,I,JA)+ASCYA(K-1,I)*(ALG(K-1,I,JA)*BI(K-1,I)/BH2(K-1,I))
+!               ENDIF    
+!            ELSE
+!               ASR(K,I,JA)=-ABS(ASCYA(K,I))*ALG(K,I,JA)*BI(K,I)/BH2(K,I)
+!               IF(ASCYA(K-1,I) >= 0.0)THEN
+!                   ASR(K,I,JA)=ASR(K,I,JA)+ASCYA(K-1,I)*ALG(K-1,I,JA)*BI(K-1,I)/BH2(K-1,I)
+!               ENDIF
+!               IF(ASCYA(K+1,I)<=0.0)THEN
+!                   ASR(K,I,JA)=ASR(K,I,JA)+ASCYA(K+1,I)*(-ALG(K+1,I,JA)*BI(K+1,I)/BH2(K+1,I))
+!               ENDIF
+!            ENDIF   
+!!-- CSW test 1/17/17           
        ELSE
 !***** CSW -- 1/4/17
         IF (AS(JA) >= 0.0) THEN
@@ -422,7 +443,7 @@ ENTRY KINETIC_RATES
           ENDIF
         ELSE
           IF(K == KB(I))THEN
-            ASR(K,I,JA) = -AS(JA)*(-ALG(K,I,JA)  *BI(K,I)/BH2(K,I))                                           !SW 11/8/07
+            ASR(K,I,JA) = -AS(JA)*(-ALG(K,I,JA)*BI(K,I)/BH2(K,I))                                           !SW 11/8/07
           ELSEIF(K == KT)THEN
             ASR(K,I,JA) = -AS(JA)* ALG(K+1,I,JA)*BI(K+1,I)*DLX(I)/VOL(K,I)                                   !SW 11/8/07
           ELSE

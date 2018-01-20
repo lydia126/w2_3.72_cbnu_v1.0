@@ -157,26 +157,26 @@ SUBROUTINE OUTPUTA
 !++CSW 1/5/17;  DEPTH => ARHOZ(K,I) (CYANO DENSITY),  WIDTH=>ASCYA(K,I) (CYANO SETTLING VELOCITY), SHADE=>PARZ, Q(I)=>DEPTHM(K,I)        
         IF (ICE_COMPUTATION) THEN  
           IF(SEDIMENT_CALC(JW))THEN  
-            WRITE (TSR(J),'(f10.3,17F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),PARA(K,I),SRON(JW)*1.06,GAMMA(K,I), ARHOZ(K,I),    &          ! SW 8/13/06  
-            ASCYA(K,I)*86400,PARZ(K,I)*0.235,ICETH(I),rn(i),rs(i),ranlw(jw),rb(i),re(i),rc(i),(ADJUSTR(C2CH(JAC)),JAC=1,NAC),                      &  ! CB 7/26/07
+            WRITE (TSR(J),'(f10.3,21F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),QC(I),SRON(JW)*1.06,GAMMA(K,I), DEPTHB(KB(I),I),&          ! SW 8/13/06  
+            BI(KTWB(JW),I),SHADE(I),ICETH(I),rn(i),rs(i),ranlw(jw),rb(i),re(i),rc(i),ARHOZ(K,I),ASCYA(K,I)*86400,PARZ(K,I)*0.235,PARA(K,I),(ADJUSTR(C2CH(JAC)),JAC=1,NAC),                      &  ! CB 7/26/07
             (ADJUSTR(EPCH(JE)),JE=1,NEP),(ADJUSTR(MACCH(JM)),JM=1,NMC),SEDCH,SEDPCH,SEDNCH,SEDCCH, &  
             (ADJUSTR(CDCH(JAD)),JAD=1,NACD(JW)),(ADJUSTR(KFCH(JF)),JF=1,NAF(JW)) 
           ELSE  
-            WRITE (TSR(J),'(f10.3,17F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),PARA(K,I),SRON(JW)*1.06,GAMMA(K,I),ARHOZ(K,I),      &     ! SW 8/13/06  
-            ASCYA(K,I)*86400,PARZ(K,I)*0.235,ICETH(I),rn(i),rs(i),ranlw(jw),rb(i),re(i),rc(i),(ADJUSTR(C2CH(JAC)),JAC=1,NAC),                      &  ! CB 7/26/07
-            (ADJUSTR(EPCH(JE)),JE=1,NEP),(ADJUSTR(MACCH(JM)),JM=1,NMC),                            &  
+            WRITE (TSR(J),'(f10.3,21F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),QC(I),SRON(JW)*1.06,GAMMA(K,I), DEPTHB(KB(I),I),&          ! SW 8/13/06  
+            BI(KTWB(JW),I),SHADE(I),ICETH(I),rn(i),rs(i),ranlw(jw),rb(i),re(i),rc(i),ARHOZ(K,I),ASCYA(K,I)*86400,PARZ(K,I)*0.235,PARA(K,I),(ADJUSTR(C2CH(JAC)),JAC=1,NAC),                      &  ! CB 7/26/07
+            (ADJUSTR(EPCH(JE)),JE=1,NEP),(ADJUSTR(MACCH(JM)),JM=1,NMC),                           &  
             (ADJUSTR(CDCH(JAD)),JAD=1,NACD(JW)),(ADJUSTR(KFCH(JF)),JF=1,NAF(JW))  
           END IF  
         ELSE  
           IF(SEDIMENT_CALC(JW))THEN  
-            WRITE (TSR(J),'(f10.3,16F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),PARA(K,I),SRON(JW)*1.06,GAMMA(K,I),ARHOZ(K,I),    &     ! SW 8/13/06  
-            ASCYA(K,I)*86400,PARZ(K,I)*0.235,rn(i),rs(i),ranlw(jw),rb(i),re(i),rc(i),(ADJUSTR(C2CH(JAC)),JAC=1,NAC),(ADJUSTR(EPCH(JE)),            &  ! CB 7/26/07
-            JE=1,NEP),(ADJUSTR(MACCH(JM)),JM=1,NMC),SEDCH,SEDPCH,SEDNCH,SEDCCH,                   &  
+            WRITE (TSR(J),'(f10.3,20F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),QC(I),SRON(JW)*1.06,GAMMA(K,I), DEPTHB(KB(I),I),&          ! SW 8/13/06  
+            BI(KTWB(JW),I),SHADE(I),rn(i),rs(i),ranlw(jw),rb(i),re(i),rc(i),ARHOZ(K,I),ASCYA(K,I)*86400,PARZ(K,I)*0.235,PARA(K,I),(ADJUSTR(C2CH(JAC)),JAC=1,NAC),                      &  ! CB 7/26/07
+            (ADJUSTR(EPCH(JE)),JE=1,NEP),(ADJUSTR(MACCH(JM)),JM=1,NMC),SEDCH,SEDPCH,SEDNCH,SEDCCH,                   &  
             (ADJUSTR(CDCH(JAD)),JAD=1,NACD(JW)),(ADJUSTR(KFCH(JF)),JF=1,NAF(JW))
           ELSE  
-            WRITE (TSR(J),'(f10.3,16F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),PARA(K,I),SRON(JW)*1.06,GAMMA(K,I),ARHOZ(K,I),      &      ! SW 8/13/06  
-            ASCYA(K,I)*86400,PARZ(K,I)*0.235,rn(i),rs(i),ranlw(jw),rb(i),re(i),rc(i),(ADJUSTR(C2CH(JAC)),JAC=1,NAC),(ADJUSTR(EPCH(JE)),            &  ! CB 7/26/07
-            JE=1,NEP),(ADJUSTR(MACCH(JM)),JM=1,NMC),(ADJUSTR(CDCH(JAD)),JAD=1,NACD(JW)),    &  
+            WRITE (TSR(J),'(f10.3,20F10.2,1000A)') JDAY,DLT,ELWS(I),T1(K,I),U(K,I),QC(I),SRON(JW)*1.06,GAMMA(K,I), DEPTHB(KB(I),I),&          ! SW 8/13/06  
+            BI(KTWB(JW),I),SHADE(I),rn(i),rs(i),ranlw(jw),rb(i),re(i),rc(i),ARHOZ(K,I),ASCYA(K,I)*86400,PARZ(K,I)*0.235,PARA(K,I),(ADJUSTR(C2CH(JAC)),JAC=1,NAC),                      &  ! CB 7/26/07
+            (ADJUSTR(EPCH(JE)),JE=1,NEP),(ADJUSTR(MACCH(JM)),JM=1,NMC),(ADJUSTR(CDCH(JAD)),JAD=1,NACD(JW)),    &  
             (ADJUSTR(KFCH(JF)),JF=1,NAF(JW))
           END IF  
         END IF  
